@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An interactive, beginner-friendly guide to how YouTube recommends videos.">
+<title>YouTube Algorithm Explained</title>
+<style>
+:root{--bg:#0b0d12;--panel:#141923;--panel2:#1b2330;--text:#f4f7fb;--muted:#a9b4c4;--red:#ff334b;--cyan:#66e3d2;--line:#2a3444;--yellow:#ffd166}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#25131b 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:var(--cyan)}.wrap{width:min(1120px,92%);margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);gap:16px}.brand{font-weight:800;letter-spacing:-.4px}.brand span{color:var(--red)}nav{display:flex;gap:18px;flex-wrap:wrap}nav a{text-decoration:none;color:var(--muted);font-size:.9rem}nav a:hover{color:white}
+.hero{padding:76px 0 54px;display:grid;grid-template-columns:1.15fr .85fr;gap:38px;align-items:center}.eyebrow{color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-size:.75rem;font-weight:800}.hero h1{font-size:clamp(2.5rem,6vw,5rem);line-height:1.02;letter-spacing:-3px;margin:14px 0 20px}.hero h1 span{color:var(--red)}.hero p{color:var(--muted);font-size:1.1rem;max-width:650px}.btn{border:0;border-radius:12px;background:var(--red);color:white;padding:13px 18px;font-weight:800;text-decoration:none;display:inline-block;cursor:pointer}.btn.secondary{background:var(--panel2);border:1px solid var(--line)}.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.visual{background:linear-gradient(145deg,#1d2634,#10141c);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 70px #0005}.screen-top{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;border-bottom:1px solid var(--line);padding-bottom:15px}.dot{width:9px;height:9px;border-radius:50%;background:var(--red)}.mini-video{display:grid;grid-template-columns:88px 1fr;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.thumb{height:60px;border-radius:10px;background:linear-gradient(135deg,#ff334b,#7627a8);display:grid;place-items:center;font-size:1.5rem}.mini-video:nth-child(3) .thumb{background:linear-gradient(135deg,#0f9b8e,#2543a4)}.mini-video:nth-child(4) .thumb{background:linear-gradient(135deg,#f5a623,#b83280)}.mini-video b{display:block;font-size:.9rem}.mini-video small{color:var(--muted)}
+section{padding:48px 0}.section-head{max-width:700px;margin-bottom:26px}.section-head h2{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.1;letter-spacing:-1px;margin:8px 0 12px}.section-head p{color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}.icon{font-size:1.65rem;margin-bottom:10px}.card h3{margin:0 0 8px;font-size:1.1rem}.card p{margin:0;color:var(--muted);font-size:.95rem}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch}.step{background:var(--panel);border:1px solid var(--line);padding:18px 13px;border-radius:15px;text-align:center}.step strong{display:block;margin:9px 0 4px}.step p{font-size:.83rem;color:var(--muted);margin:0}.arrow{color:var(--red);font-size:1.5rem}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.signal{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--line)}.signal:last-child{border:0}.signal .icon{margin:0;font-size:1.3rem}.signal p{margin:3px 0 0;color:var(--muted);font-size:.92rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.tab{background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:700}.tab.active{background:var(--red);border-color:var(--red);color:white}.tab-content{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;min-height:155px}.tab-content p{color:var(--muted)}
+.simulator{background:linear-gradient(135deg,#171d29,#10141b);border:1px solid var(--line);border-radius:22px;padding:24px}.simulator label{display:block;font-weight:700;margin:18px 0 8px}.simulator select{width:100%;background:#0c1017;color:var(--text);padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit}.result{margin-top:18px;padding:18px;border-radius:14px;background:#0b1118;border:1px solid var(--line)}.result strong{color:var(--cyan)}.meter{height:9px;border-radius:99px;background:#2a3444;overflow:hidden;margin:10px 0}.meter span{display:block;height:100%;width:70%;background:linear-gradient(90deg,var(--red),var(--yellow));transition:width .3s}
+.myth{padding:16px 0;border-bottom:1px solid var(--line)}.myth:last-child{border:0}.myth b{display:block;margin-bottom:4px}.myth p{color:var(--muted);margin:0}
+.quiz{max-width:760px}.quiz-question{font-weight:800;font-size:1.15rem;margin-bottom:15px}.option{display:block;width:100%;text-align:left;padding:13px 15px;margin:8px 0;background:var(--panel2);border:1px solid var(--line);border-radius:11px;color:var(--text);cursor:pointer;font:inherit}.option:hover{border-color:var(--cyan)}.feedback{margin-top:12px;color:var(--cyan);font-weight:700;min-height:28px}
+footer{border-top:1px solid var(--line);padding:30px 0 45px;color:var(--muted);font-size:.9rem}.sources{display:flex;flex-direction:column;gap:8px;margin-top:12px}.sources a{overflow-wrap:anywhere}
+.note{color:var(--muted);font-size:.85rem}.tag{display:inline-block;background:#2b1820;color:#ff8b9a;padding:5px 9px;border-radius:8px;font-size:.75rem;font-weight:800}
+@media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:48px}.grid{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.split{grid-template-columns:1fr}nav{display:none}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{letter-spacing:-1.5px}.visual{padding:15px}.card{padding:18px}section{padding:35px 0}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="nav">
+    <div class="brand">▶ <span>YT</span> ALGORITHM LAB</div>
+    <nav><a href="#how">How it works</a><a href="#signals">Signals</a><a href="#simulator">Try it</a><a href="#creator">Creator tips</a><a href="#quiz">Quiz</a></nav>
+  </div>
+</header>
+<main>
+<div class="wrap hero">
+  <div>
+    <div class="eyebrow">A beginner-friendly interactive guide</div>
+    <h1>Why does YouTube show <span>you</span> that video?</h1>
+    <p>YouTube doesn't use one simple rule to choose videos. It predicts what each viewer may want to watch and enjoy, using many signals that change with the person and the situation.</p>
+    <div class="hero-buttons"><a class="btn" href="#how">Explore the algorithm ↓</a><a class="btn secondary" href="#simulator">Try the simulator</a></div>
+    <p class="note">Educational demo — not YouTube's real internal algorithm or a view-count predictor.</p>
+  </div>
+  <div class="visual" aria-label="Illustration of personalized video recommendations">
+    <div class="screen-top"><span class="dot"></span> YOUR PERSONALIZED HOME</div>
+    <div class="mini-video"><div class="thumb">💻</div><div><b>Learn Java in 15 Minutes</b><small>Because you watch coding videos</small></div></div>
+    <div class="mini-video"><div class="thumb">🎮</div><div><b>New Game Highlights</b><small>Related to videos you enjoyed</small></div></div>
+    <div class="mini-video"><div class="thumb">🎵</div><div><b>Trending Tamil Music Mix</b><small>Based on your interests</small></div></div>
+    <div class="note">Two people can open YouTube at the same time and see different recommendations.</div>
+  </div>
+</div>
+
+<section id="how" class="wrap">
+  <div class="section-head"><div class="eyebrow">01 / The process</div><h2>How recommendations work</h2><p>Think of it as a loop: understand the viewer, choose possible videos, observe the response, then learn from new signals.</p></div>
+  <div class="flow">
+    <div class="step"><div class="icon">🧭</div><strong>1. Learn interests</strong><p>Watch history, searches, subscriptions and feedback help indicate what you like.</p></div>
+    <div class="step"><div class="arrow">→</div><div class="icon">🗂️</div><strong>2. Find candidates</strong><p>The system finds videos that may fit your interests and context.</p></div>
+    <div class="step"><div class="arrow">→</div><div class="icon">📊</div><strong>3. Rank options</strong><p>It estimates which videos are relevant and likely to satisfy you.</p></div>
+    <div class="step"><div class="arrow">→</div><div class="icon">▶️</div><strong>4. Show videos</strong><p>Recommendations appear on Home, Up Next and the Shorts feed.</p></div>
+    <div class="step"><div class="arrow">→</div><div class="icon">🔁</div><strong>5. Learn again</strong><p>Your choices and feedback help personalize future recommendations.</p></div>
+  </div>
+  <p class="note" style="margin-top:14px">This is a simplified teaching model. YouTube uses different systems and signals for different surfaces.</p>
+</section>
+
+<section class="wrap" id="signals">
+  <div class="section-head"><div class="eyebrow">02 / Signals</div><h2>What information can matter?</h2><p>No single signal guarantees a recommendation. YouTube combines signals to estimate relevance and viewer satisfaction.</p></div>
+  <div class="grid">
+    <article class="card"><div class="icon">🕘</div><h3>Watch history</h3><p>Videos you watch, skip, or return to can help the system understand your interests.</p></article>
+    <article class="card"><div class="icon">🔎</div><h3>Searches</h3><p>What you search for can indicate a topic you want to learn about or explore.</p></article>
+    <article class="card"><div class="icon">👍</div><h3>Feedback</h3><p>Likes, dislikes, “Not interested,” and “Don't recommend channel” help guide suggestions.</p></article>
+    <article class="card"><div class="icon">⏱️</div><h3>Viewer retention</h3><p>Whether people keep watching and how much they watch can help show if a video holds their interest.</p></article>
+    <article class="card"><div class="icon">💬</div><h3>Satisfaction</h3><p>Likes alone are not the whole story. YouTube also uses satisfaction signals, including surveys.</p></article>
+    <article class="card"><div class="icon">🌍</div><h3>Context & interests</h3><p>Topic, device, time, language, similar viewers and competing videos can affect what is relevant.</p></article>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head"><div class="eyebrow">03 / Different places</div><h2>One platform, different recommendation jobs</h2><p>Choose a YouTube surface to see what the system is mainly trying to do there.</p></div>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="home" role="tab">Home</button><button class="tab" data-tab="upnext" role="tab">Up Next</button><button class="tab" data-tab="shorts" role="tab">Shorts</button><button class="tab" data-tab="search" role="tab">Search</button>
+  </div>
+  <div class="tab-content" id="tabContent" aria-live="polite"><h3>Home page</h3><p>Home is personalized mainly using your watch history and other signals. It may mix videos from channels you enjoy with new content that fits your interests.</p></div>
+</section>
+
+<section class="wrap" id="simulator">
+  <div class="section-head"><div class="eyebrow">04 / Interactive demo</div><h2>Try a tiny recommendation simulator</h2><p>Change the viewer's interests and video quality signals. This toy example demonstrates the idea of matching; it does not reproduce YouTube's actual scoring formula.</p></div>
+  <div class="simulator">
+    <label for="interest">Viewer's main interest</label>
+    <select id="interest"><option value="coding">Coding and technology</option><option value="music">Tamil music</option><option value="gaming">Gaming</option><option value="study">Study tips</option></select>
+    <label for="appeal">How appealing is the title and thumbnail?</label>
+    <select id="appeal"><option value="high">Clear and interesting</option><option value="mid">Somewhat clear</option><option value="low">Unclear or misleading</option></select>
+    <label for="satisfaction">What happens after the viewer clicks?</label>
+    <select id="satisfaction"><option value="high">They watch and feel satisfied</option><option value="mid">They watch some of it</option><option value="low">They leave quickly / not interested</option></select>
+    <button class="btn" id="simulate" style="margin-top:18px">Show demo result</button>
+    <div class="result" id="result" aria-live="polite"><strong>Example recommendation:</strong><p>Choose the options and run the demo to see how relevance and viewer response can change the outcome.</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="creator">
+  <div class="section-head"><div class="eyebrow">05 / For creators</div><h2>Improve the video for real viewers</h2><p>There is no guaranteed trick to go viral. Focus on making a video that the intended audience wants to click and is glad they watched.</p></div>
+  <div class="split">
+    <div class="card">
+      <div class="tag">DO THIS</div>
+      <div class="signal"><div class="icon">🎯</div><div><b>Choose a clear topic</b><p>Make it obvious who the video is for and what viewers will get.</p></div></div>
+      <div class="signal"><div class="icon">🖼️</div><div><b>Use an honest title and thumbnail</b><p>Make the promise clear, then deliver what the packaging promises.</p></div></div>
+      <div class="signal"><div class="icon">✂️</div><div><b>Respect the viewer's time</b><p>Start with value, keep the structure clear, and remove unnecessary filler.</p></div></div>
+      <div class="signal"><div class="icon">📈</div><div><b>Learn from Analytics</b><p>Check impressions, click-through rate, audience retention and traffic sources together.</p></div></div>
+    </div>
+    <div class="card">
+      <div class="tag">MYTH CHECK</div>
+      <div class="myth"><b>“Post at one magic time.”</b><p>There is no universal best time. Audience habits vary.</p></div>
+      <div class="myth"><b>“Every video must go viral immediately.”</b><p>Videos can find interested viewers over time; one weak upload does not automatically doom a channel.</p></div>
+      <div class="myth"><b>“More tags always mean more views.”</b><p>Metadata can help describe content, but it cannot replace relevance and viewer satisfaction.</p></div>
+      <div class="myth"><b>“The system only cares about watch time.”</b><p>It considers multiple signals, including appeal, engagement and satisfaction.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="quiz">
+  <div class="section-head"><div class="eyebrow">06 / Check your understanding</div><h2>Quick quiz</h2><p>One question to see if the main idea makes sense.</p></div>
+  <div class="card quiz">
+    <div class="quiz-question">Why might two people see different videos on their YouTube Home pages?</div>
+    <button class="option" data-correct="false">YouTube shows every user exactly the same ranked list.</button>
+    <button class="option" data-correct="true">Their interests, viewing histories and feedback can be different.</button>
+    <button class="option" data-correct="false">Only the videos with the most views can appear.</button>
+    <div class="feedback" id="quizFeedback" aria-live="polite"></div>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <b>YT Algorithm Lab</b> · Made for learning, not affiliated with YouTube or Google.
+    <p class="note">Important: YouTube does not publish one simple formula that explains every recommendation. The website uses a simplified overview of public YouTube guidance.</p>
+    <b>Official sources to learn more</b>
+    <div class="sources">
+      <a href="https://support.google.com/youtube/answer/16533387" target="_blank" rel="noopener">YouTube's Recommendation System — YouTube Help</a>
+      <a href="https://support.google.com/youtube/answer/16559650" target="_blank" rel="noopener">Understand content performance — YouTube Help</a>
+      <a href="https://support.google.com/youtube/answer/11914225" target="_blank" rel="noopener">Search & discovery tips — YouTube Help</a>
+      <a href="https://support.google.com/youtube/answer/6342839" target="_blank" rel="noopener">Manage your recommendations — YouTube Help</a>
+    </div>
+  </div>
+</footer>
+<script>
+const tabData={
+ home:{title:"Home page",text:"Home is personalized mainly using your watch history and other signals. It may mix videos from channels you enjoy with new content that fits your interests."},
+ upnext:{title:"Up Next",text:"The video you are currently watching is an important signal. You may see related videos, plus personalized suggestions based on your viewing habits."},
+ shorts:{title:"Shorts feed",text:"The Shorts feed is personalized too. How viewers respond to individual Shorts helps the system estimate what each person may want to watch next."},
+ search:{title:"Search results",text:"Search focuses on relevance to the words and intent behind a query, along with engagement and quality signals. Results are not simply sorted by total views."}
+};
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+ const d=tabData[btn.dataset.tab];document.getElementById("tabContent").innerHTML="<h3>"+d.title+"</h3><p>"+d.text+"</p>";
+}));
+document.getElementById("simulate").addEventListener("click",()=>{
+ const interests={coding:"a beginner coding tutorial",music:"a Tamil music playlist",gaming:"a gaming highlights video",study:"a study-skills guide"};
+ const a=document.getElementById("appeal").value,s=document.getElementById("satisfaction").value;
+ let score=(a==="high"?2:a==="mid"?1:0)+(s==="high"?2:s==="mid"?1:0);
+ let heading,copy,width;
+ if(score>=3){heading="A stronger match";copy="This example has a relevant topic, appealing packaging, and a positive viewing response. That combination could support recommendations to viewers likely to enjoy it.";width="88%";}
+ else if(score>=2){heading="A mixed result";copy="Some signals are positive, but there is room to improve the match or the viewer experience. Review the video and the audience data.";width="58%";}
+ else{heading="A weaker match";copy="The topic may be relevant, but unclear packaging or a poor viewing experience can make the video less satisfying for this audience. Improve the content honestly rather than using clickbait.";width="25%";}
+ document.getElementById("result").innerHTML="<strong>"+heading+"</strong><p>Example candidate: "+interests[document.getElementById("interest").value]+".</p><div class='meter'><span style='width:"+width+"'></span></div><p>"+copy+"</p><small class='note'>Illustrative score only — not an actual YouTube score or prediction.</small>";
+});
+document.querySelectorAll(".option").forEach(btn=>btn.addEventListener("click",()=>{
+ const f=document.getElementById("quizFeedback");
+ if(btn.dataset.correct==="true"){f.textContent="Correct! Recommendations are personalized using several signals.";}
+ else{f.textContent="Not quite. Try again: think about how each viewer's interests and viewing history differ.";}
+}));
+</script>
+</body>
+</html>
